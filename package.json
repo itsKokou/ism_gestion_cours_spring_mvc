@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
+  },
+  "dependencies": {
+    "fullcalendar": "^6.1.11",
+    "sweetalert2": "^11.10.7"
+  }
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template"
+>
+<div layout:fragment="content" class="container px-6 mx-auto grid">
+    <div id="calendar"  class=" bg-gray-50 dark:bg-gray-700 dark:text-white mt-2 w-auto h-auto">
+
+    </div>
+
+
+        <div th:if="${htmlDeclaration != null}" id="declaration" class="hidden w-fit px-6 py-4 overflow-y-auto bg-white rounded-t-lg dark:bg-gray-900 sm:rounded-lg sm:m-4">
+            <th:block th:utext="${htmlDeclaration}"/>
+        </div>
+
+        <div th:if="${htmlEtudiant != null}" id="etudiant" class="hidden w-full px-6 py-4 overflow-y-auto bg-white rounded-t-lg dark:bg-gray-900 sm:rounded-lg sm:m-4">
+            <th:block th:utext="${htmlEtudiant}"/>
+        </div>
+
+    <script th:inline="javascript">
+        var jsonData = /*[[${seances}]]*/ '{}';
+        const donnees = [];
+
+        for (const don in jsonData) {
+            donnees.push(JSON.parse(jsonData[don]));
+        }
+
+        window.onload = () => {
+            let calendarElt = document.querySelector("#calendar");
+            let calendar = new FullCalendar.Calendar(calendarElt,{
+                initialView : 'timeGridWeek',
+                locale : 'fr',
+                timeZone : 'Africa/Senegal',
+                slotMinTime : '08:00:00',
+                slotMaxTime : '20:00:00',
+                firstDay : 1,
+                views: {
+                    dayGridMonth: { buttonText: "Mois" },
+                    timeGridWeek: { buttonText: "Semaine" },
+                    timeGridDay: { buttonText: "Jour" }
+                },
+                headerToolbar : {
+                    start : "prev,next today",
+                    center : 'title',
+                    end : 'dayGridMonth,timeGridWeek,timeGridDay',
+                },
+                events : donnees,
+                eventContent: function(arg) {
+                    return {
+                        html: arg.timeText + '</b><br> '+ '</b> <b>' + arg.event.title + '</b><br>' + arg.event.extendedProps.description + '</b><br>' + arg.event.extendedProps.location //+ '</b><br> ' + buttonHtml
+                    };
+                }
+            });
+            calendar.render();
+        }
+    </script>
+
+    <script th:if="${htmlEtudiant != null}">
+        const listeEtudiants = document.querySelector('#etudiant');
+        listeEtudiants.classList.toggle('hidden');
+        Swal.fire({
+            width:900,
+            html: listeEtudiants,
+            showConfirmButton: false,
+            denyButtonText:"Fermer",denyButtonColor:'#f87171',showDenyButton: true
+        }).then((result) => {
+            if (result.isDenied) {
+                redirectToPath("/ac/seance");
+            }
+        });
+    </script>
+
+    <script th:inline="javascript">
+        var seanceID = /*[[${seanceId}]]*/ ;
+        const btnSave = document.querySelector("#enregistrer-absence");
+        if(btnSave != null){
+            btnSave.addEventListener("click",function (event){
+                const checkboxList = document.querySelectorAll(".presence");
+                var ids = [];
+                var i = 0;
+                checkboxList.forEach(box => {
+                    if (box.checked === false) {
+                        ids[i] = box.value;
+                        i++;
+                    }
+                });
+                const path = "/ac/seance/"+seanceID+"/absences/save/"+ids;
+                redirectToPath(path);
+            });
+        }
+
+        const annulerSession = document.querySelector("#annuler-session");
+        if(annulerSession != null){
+            annulerSession.addEventListener("click",function (event){
+                Swal.fire(
+                    {
+                        title: 'Annuler Session',
+                        text: "Souhaitez-vous confirmer l'annulation de cette session ?",
+                        icon: 'warning',
+                        showCloseButton: false,
+                        showConfirmButton: false,
+                        showCancelButton: true,
+                        cancelButtonText : "Non, Annuler",
+                        showDenyButton: true,
+                        denyButtonText : "Oui, Confirmer",
+                        reverseButtons: true
+                    }
+                ).then((result) => {
+                    if (result.isDenied) {
+                        redirectToPath("/ac/seance/archiver/"+seanceID);
+                    }else if(!result.isConfirmed){
+                        redirectToPath("/ac/seance");
+                    }
+                });
+            })
+        }
+    </script>
+
+
+</div>
+</html>

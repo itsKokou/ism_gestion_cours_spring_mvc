@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <base href="/">
+    <link rel="stylesheet" th:href="@{/css/tailwind.output.css}">
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+    <title>Module</title>
+</head>
+<body>
+
+  <div class=" flex justify-end" th:if="${isAbsence==false}">
+    <button id="annuler-session"
+      class="px-4 py-2 text-sm font-medium leading-5 text-red-600 transition-colors duration-150 bg-transparent border border-red-600 rounded-lg hover:text-white hover:bg-red-600   focus:outline-none focus:shadow-outline-red"
+    >
+      Annuler Session
+    </button>
+  </div>
+
+  <!--div class=" flex justify-end">
+    <a href="{{url_for('VoirSeanceElements',element = 'absences')}}"
+      class="px-4 py-2 text-base font-medium leading-5 text-cyan-500 transition-colors duration-150 bg-transparent border-2 border-cyan-500 rounded-lg hover:text-white hover:bg-cyan-500   focus:outline-none focus:shadow-outline-purple"
+    >
+      Voir les Absents
+    </a>
+  </div-->
+
+<h4 class="mb-4 mt-4 text-lg font-semibold text-gray-600 dark:text-white">
+    Liste des Etudiants 
+</h4>
+
+<div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr class="text-sm font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-900" style="color:#eb1616;">
+            <th class="px-4 py-3">N°</th>
+            <th class="px-4 py-3">Matricule</th>
+            <th class="px-4 py-3">Nom et Prénoms</th>
+            <th class="px-4 py-3">Email</th>
+            <th class="px-4 py-3">Classe</th>
+                <th class="px-4 py-3" th:if="${isAbsence == true or finSession == true or debutEmargement == true}">Présent</th>
+          </tr>
+        </thead>
+        <tbody
+          class="bg-white text-left divide-y dark:divide-gray-700 dark:bg-gray-900"
+        >
+                    <tr class="text-gray-700 dark:text-gray-400" th:each="etudiant : ${etudiants}">
+                        <td class="px-4 py-3 text-sm" th:text="${etudiant.id}"></td>
+                        <td class="px-4 py-3 text-sm" th:text="${etudiant.matricule}"></td>
+                        <td class="px-4 py-3 text-sm" th:text="${etudiant.nomComplet}"></td>
+                        <td class="px-4 py-3 text-sm" th:text="${etudiant.email}"></td>
+                        <td class="px-4 py-3 text-sm" th:text="${etudiant.classe}"></td>
+                        <!--Faire absence, si etudiant marque present, on coche avant que ac voit les absents pour save-->
+                        <td class="px-4 py-3" th:if="${(isAbsence == false and debutEmargement == true) or (isAbsence == false and finSession == true)}">
+                            <input class="presence" type="checkbox" name="presence" th:value="${etudiant.id}"
+                                   th:checked="${#arrays.contains(presences,etudiant.id)}">
+                        </td>
+                        <!--Voir les étudiants absents-->
+                        <td class="px-4 py-3" th:if="${isAbsence == true and finSession == true}">
+                            <input type="checkbox" disabled  name="presence"
+                                   th:checked="${! #arrays.contains(absences,etudiant.id)}"
+                            >
+                        </td>
+                    </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+  <!--Enregistrer absence uniquement à la fin de la session-->
+  <div class=" mt-6 flex justify-end" th:if="${(isAbsence == false and finSession == true)}">
+    <button id="enregistrer-absence"
+      class="px-4 py-2 text-sm font-medium leading-5 text-red-600 transition-colors duration-150 bg-transparent border border-red-600 rounded-lg hover:text-white hover:bg-red-600   focus:outline-none focus:shadow-outline-red"
+    >
+      Enregistrer
+    </button>
+  </div>
+</body>
+</html>

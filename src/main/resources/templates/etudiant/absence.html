@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+  <base href="/">
+  <link rel="stylesheet" th:href="@{/css/tailwind.output.css}">
+  <link rel="stylesheet" th:href="@{/css/output.css}">
+  <title>Absence</title>
+</head>
+<body>
+<h4 class="mb-4 mt-4 text-lg font-semibold text-gray-500 dark:text-white">
+    Les absences de <span th:text="${etudiant}"></span> en <span th:text="${anneeScolaire}"></span>
+  </h4>
+
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-sm font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+            style="color:#eb1616;"
+          >
+            <th class="px-4 py-3">N°</th>
+            <th class="px-4 py-3">Date</th>
+            <th class="px-4 py-3">Cours</th>
+            <th class="px-4 py-3">Professeur</th>
+            <th class="px-4 py-3">Horaire</th>
+            <th class="px-4 py-3">Semestre</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900" >
+        <tr class="text-gray-700 dark:text-gray-400" th:each="ab:${absences}">
+          <td class="px-4 py-3 text-sm" th:text="${ab.id}"></td>
+          <td class="px-4 py-3 text-sm" th:text="${#dates.format(ab.date,'dd-MM-yyyy')}"></td>
+          <td class="px-4 py-3 text-sm" th:text="${ab.cours}"></td>
+          <td class="px-4 py-3 text-sm" th:text="${ab.professeur}"></td>
+          <td class="px-4 py-3 text-sm" th:text="${ab.horaire}"></td>
+          <td class="px-4 py-3 text-sm" th:text="${ab.semestre}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

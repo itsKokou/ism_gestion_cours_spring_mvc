@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <base href="/">
+    <link rel="stylesheet" th:href="@{/css/tailwind.output.css}">
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+    <title>Dossier</title>
+</head>
+<body>
+<h4 class="mb-4 mt-4 text-lg font-semibold text-gray-500 dark:text-white">
+    Le dossier de <span th:text="${etudiant.nomComplet}"></span>
+</h4>
+<div style="width:80%;" class="w-full flex overflow-hidden rounded-lg shadow-xs bg-gray-50 dark:bg-gray-700">
+    <div style="width:30%;">
+        <img th:src="@{/img/{lib}(lib=${etudiant.photo})}" alt="" >
+    </div>
+    <div class="text-lg text-black dark:text-white text-left px-6 py-3">
+        <span class=" block">Année Scolaire :&nbsp;&nbsp;&nbsp;&nbsp;<strong th:text="${inscription.anneeScolaire.libelle }"></strong></span>
+        <span class=" block">Nom Complet : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong th:text="${etudiant.nomComplet}"> </strong></span>
+        <span class=" block">Matricule : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong th:text="${etudiant.matricule}"> </strong></span>
+        <span class=" block">Email : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong th:text="${etudiant.login}"> </strong></span>
+        <span class=" block">Tuteur : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong th:text="${etudiant.tuteur}"> </strong></span>
+        <span class=" block">Classe : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong th:text="${inscription.classe.libelle}"> </strong></span>
+    </div>
+</div>
+<h4 class="mb-4 w-fit text-left mt-4 text-lg font-semibold text-gray-500 dark:text-white">
+    Liste de ses Inscriptions
+</h4>
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-sm font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+            style="color:#eb1616;"
+          >
+            <th class="px-4 py-3">N°</th>
+            <th class="px-4 py-3">Date</th>
+            <th class="px-4 py-3">Classe</th>
+            <th class="px-4 py-3">Année Scolaire</th>
+          </tr>
+        </thead>
+          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900" >
+          <tr class="text-gray-700 dark:text-gray-400" th:each="ins:${inscriptions}">
+              <td class="px-4 py-3 text-sm" th:text="${ins.id}"></td>
+              <td class="px-4 py-3 text-sm" th:text="${#dates.format(ins.createdAt,'dd-MM-yyyy')}"></td>
+              <td class="px-4 py-3 text-sm" th:text="${ins.classe.libelle}"></td>
+              <td class="px-4 py-3 text-sm" th:text="${ins.anneeScolaire.libelle}"></td>
+          </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template"
+>
+<div layout:fragment="content" class="container px-6 mx-auto grid">
+  <div class="w-full flex mt-6">
+    <form style="width: 30%;" class="w-auto rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-900">
+      <div  class="inline-flex mt-1 mb-2 w-full justify-center">
+        <div style="width: 80%; margin-right:80px;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+          <label for="select-cours-etat" class="block mb-2 font-medium text-gray-900 dark:text-white">Etat</label>
+          <select id="select-cours-etat" style="width:80%;" class="bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option th:data="@{/ac/cours}" value="">All</option>
+            <option th:each="etat:${etats}" th:selected="${etatActuel==etat}" th:text="${etat}" th:value="${etat}"
+                    th:data="@{/ac/cours(etat=${etat})}"></option>
+          </select>
+        </div>
+
+      </div>
+    </form>
+</div>
+  <h4 class="mb-4 mt-4 text-lg font-semibold text-gray-600 dark:text-white">
+    Liste des Cours de <span th:text="${anneeScolaire}"></span>
+  </h4>
+
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+            style="color:#eb1616;"
+          >
+            <th class="px-4 py-3">N°</th>
+            <th class="px-4 py-3">Enregistré le</th>
+            <th class="px-4 py-3">Module</th>
+            <th class="px-4 py-3">Professeur</th>
+            <th class="px-4 py-3"> Classe(s) </th>
+            <th class="px-4 py-3">Semestre</th>
+            <th class="px-4 py-3">Heure Totale</th>
+            <th class="px-4 py-3">Planifié</th>
+            <th class="px-4 py-3">Réalisé</th>
+            <th class="px-4 py-3">Etat</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900" >
+          <tr class="text-gray-700 dark:text-gray-400" th:each="cours:${courss}">
+            <td class="px-4 py-3 text-sm" th:text="${cours.id}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${#dates.format(cours.date,'dd-MM-yyyy')}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${cours.module}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${cours.professeur}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${cours.classes}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${cours.semestre}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${cours.nbreHeureTotal}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${cours.nbreHeurePlanifie}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${cours.nbreHeureRealise}"></td>
+            <td class="px-6 py-4 text-sm" >
+                <span class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-green-50 text-green-600" th:if="${cours.etat=='Encours'}">
+                    <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>En cours
+                </span>
+                <span class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-orange-50 text-orange-600" th:if="${cours.etat=='Termine'}">
+                    <span class="h-1.5 w-1.5 rounded-full bg-orange-600"></span>Terminé
+                </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <div class="navigation" th:include="pagination.html">
+
+  </div>
+</div>  
+
+  <script>
+
+    const select_etat =document.querySelector("#select-cours-etat");
+    getData(select_etat);
+    
+  </script>
+
+</div>
+</html>

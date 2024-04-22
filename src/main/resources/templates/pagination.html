@@ -1,0 +1,29 @@
+
+<div th:if="${totalPage>1}" class="flex justify-end px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-600 dark:bg-gray-900">
+    
+    <div class="flex col-span-4 mt-2 justify-end sm:mt-auto sm:justify-end">
+        <div class="Table navigation inline-flex items-center">
+
+            <a th:if="${prev==true}" rel="prev" th:href="@{${route}(page=${currentPage - 1})}" class="px-3 py-2 border border-r-0 border-gray-400 rounded-l-lg text-red-600 bg-white focus:outline-none focus:shadow-outline-purple hover:bg-gray-300  ">&laquo;&nbsp;précédent</a>
+
+            <a th:if="${prev==false}" class="px-3 py-2 border border-r-0 border-gray-400  rounded-l-lg focus:outline-none focus:shadow-outline-purple bg-white  disabled">&laquo;&nbsp;précédent</a>
+
+
+
+
+            <a th:each="p,status:${pages}"
+               th:text="${status.index +1}"
+               th:class="${status.index!=currentPage? 'px-3 py-2 bg-white border hover:bg-gray-300 text-red-600  border-r-0 border-gray-400  focus:outline-none focus:shadow-outline-red' : 'px-3 py-2 focus:outline-none focus:shadow-outline-r text-white transition-colors duration-150 bg-red-600 border border-r-0 border-red-600'}"
+               th:href="@{${route}(page=${status.index})}"
+            ></a>
+
+
+            <a th:if="${next==true}" rel="next" th:href="@{${route}(page=${currentPage + 1})}"  class= "px-3 border bg-white text-red-600 border-r-0 border-gray-400 hover:bg-gray-300  py-2 rounded-r-lg focus:outline-none focus:shadow-outline-purple" >
+                suivant &nbsp;&raquo;
+            </a>
+
+            <a th:if="${next==false}" class="px-3 border border-r-0 border-gray-400  py-2 rounded-r-lg focus:outline-none bg-white focus:shadow-outline-purple disabled">suivant&nbsp;&raquo;</a>
+
+        </div>
+    </div>
+</div>

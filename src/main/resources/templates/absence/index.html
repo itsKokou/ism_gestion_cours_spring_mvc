@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template"
+>
+<div layout:fragment="content" class="container px-6 mx-auto grid">
+  <div class="w-full flex mt-6">
+    <form style="width: 30%;" class="w-auto rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-900">
+      <div  class="inline-flex mt-1 mb-2 w-full justify-center">
+        <div style="width: 80%; margin-right:80px;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+          <label for="matricule" class="block mb-2 font-medium text-gray-900 dark:text-white">Matricule</label>
+          <input id="matricule" type="text" th:value="${matricule}" style="width:80%;" class="bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block p-2  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+
+      </div>
+    </form>
+</div>
+  <h4 class="mb-4 mt-4 text-lg font-semibold text-gray-600 dark:text-white">
+    Les absences de <span th:text="${anneeScolaire}"></span>
+  </h4>
+
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+            style="color:#eb1616;"
+          >
+            <th class="px-4 py-3 ">N°</th>
+            <th class="px-4 py-3 ">Date</th>
+            <th class="px-4 py-3 "> Cours</th>
+            <th class="px-4 py-3 ">Professeur</th>
+            <th class="px-4 py-3 ">Horaire</th>
+            <th class="px-4 py-3 ">Semestre</th>
+            <th class="px-4 py-3 ">Matricule</th>
+            <th class="px-4 py-3 ">L'Absent</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900" >
+          <tr class="text-gray-700 dark:text-gray-400" th:each="ab:${absences}">
+            <td class="px-4 py-3 text-sm" th:text="${ab.id}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${#dates.format(ab.date,'dd-MM-yyyy')}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${ab.cours}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${ab.professeur}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${ab.horaire}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${ab.semestre}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${ab.matricule}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${ab.etudiant}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <div class="navigation" th:include="pagination.html">
+
+  </div>
+</div>  
+
+  <script>
+    const matricule =document.querySelector("#matricule");
+    matricule.addEventListener('keyup',_=>{
+      if (matricule.value.length===6){
+        const path = "/ac/absence?matricule="+matricule.value.toUpperCase();
+        redirectToPath(path);
+      }else if (matricule.value.length===0){
+        const path = "/ac/absence"
+        redirectToPath(path);
+      }
+    });
+  </script>
+
+</div>
+</html>

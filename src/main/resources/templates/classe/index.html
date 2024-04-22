@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template"
+>
+<div layout:fragment="content" class="container px-6 mx-auto grid">
+  <div class="w-full flex mt-6">
+    <form style="width: 50%;" class="w-auto rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-900">
+      <div  class="inline-flex mt-1 mb-2 w-full justify-center">
+        <div style="width: 38%; margin-right:80px;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+          <label for="select-classe-niveau" class="block mb-2 font-medium text-gray-900 dark:text-white">Niveau</label>
+          <select id="select-classe-niveau" style="width:80%;" class="bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option th:data="@{/ac/classe(niveau=0,filiere=${filiere})}" value='0' >All</option>
+            <option th:data="@{/ac/classe(niveau=${niv.id},filiere=${filiere})}" th:each="niv:${niveaux}" th:value="${niv.id}" th:text="${niv.libelle}" th:selected="${niveau==niv.id}"></option>
+          </select>
+        </div>
+        <div style="width: 38%;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+          <label for="select-classe-filiere" class="block mb-2 font-medium text-gray-900 dark:text-white">Filière</label>
+          <select id="select-classe-filiere" style="width:80%;" class="bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option th:data="@{/ac/classe(niveau=${niveau},filiere=0)}" value='0' >All</option>
+            <option th:data="@{/ac/classe(niveau=${niveau},filiere=${fil.id})}" th:each="fil:${filieres}" th:value="${fil.id}" th:text="${fil.libelle}" th:selected="${filiere==fil .id}"></option>
+          </select>
+        </div>
+
+      </div>
+    </form>
+</div>
+  <h4 class="mb-4 mt-4 text-lg font-semibold text-gray-600 dark:text-white">
+    Liste des Classes de <span th:text="${anneeScolaire}"></span>
+  </h4>
+
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+            style="color:#eb1616;"
+          >
+            <th class="px-4 py-3">N°</th>
+            <th class="px-4 py-3">Libellé</th>
+            <th class="px-4 py-3">Niveau</th>
+            <th class="px-4 py-3">Filière</th>
+            <th class="px-4 py-3">Effectif</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900" >
+          <tr class="text-gray-700 dark:text-gray-400" th:each="classe:${classes}">
+            <td class="px-4 py-3 text-sm" th:text="${classe.id}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${classe.libelle}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${classe.niveau}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${classe.filiere}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${classe.effectif}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <div class="navigation" th:include="pagination.html">
+
+  </div>
+</div>  
+
+  <script>
+    const select_niveau =document.querySelector("#select-classe-niveau");
+    getData(select_niveau)
+    const select_filiere =document.querySelector("#select-classe-filiere");
+    getData(select_filiere)
+  </script>
+
+</div>
+</html>
