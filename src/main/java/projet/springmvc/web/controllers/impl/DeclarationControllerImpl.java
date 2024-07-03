@@ -25,7 +25,7 @@ public class DeclarationControllerImpl implements DeclarationController {
 
     @Override
     public String listerDeclaration(Model model, int page, int size, EtatDeclaration etat) {
-        Page<Declaration> declarations = declarationService.getEtudiantDeclarationsByEtat(etat,PageRequest.of(page,size));
+        Page<Declaration> declarations = declarationService.getDeclarationsByEtatAndUserRole(etat,"ROLE_ETUDIANT",PageRequest.of(page,size));
         AnneeScolaire anneeScolaire = anneeScolaireService.getAnneeActuelle();
         Page<DeclarationResponseDto> declarationDtos = declarations.map(DeclarationResponseDto::toDto);
         model.addAttribute("declarations",declarationDtos.getContent() );

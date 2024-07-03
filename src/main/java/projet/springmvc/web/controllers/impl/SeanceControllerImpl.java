@@ -104,7 +104,7 @@ public class SeanceControllerImpl implements SeanceController {
         //---demander faire absence ou voir liste étudiants
         String htmlEtudiant = null;
         if (id!=0){
-            htmlEtudiant = pageLoaderService.loadPageContent("http://localhost:8001/ac/seance/etudiant/"+id);
+            htmlEtudiant = pageLoaderService.loadPageContent("http://localhost:8001/seance/etudiant/"+id);
         }
         model.addAttribute("htmlEtudiant", htmlEtudiant);
         model.addAttribute("seanceId", id);
@@ -157,19 +157,19 @@ public class SeanceControllerImpl implements SeanceController {
         return "seance/etudiant";
     }
 
-    //Realiser par le RP et non AC
-//    @Override
-//    public String archiverSeance(Model model, Long id) {
-//        Seance seance = seanceService.show(id).orElseThrow(()-> new EntityNotFoundException("Seance est non trouvé"));
-//        seance.setIsArchived(true);
-//        Cours cours = seance.getCours();
-//        int nbreHeure = seance.getHeureF().getHour()-seance.getHeureD().getHour();
-//        cours.setNbreHeurePlanifie(cours.getNbreHeurePlanifie()-nbreHeure);
-//        cours.setNbreHeureRestantPlan(cours.getNbreHeureRestantPlan()+nbreHeure);
-//        seanceService.save(seance);
-//        coursService.save(cours);
-//        return "redirect:/ac/seance";
-//    }
+    //Archiver == invalider
+    @Override
+    public String archiverSeance(Model model, Long id) {
+        Seance seance = seanceService.show(id).orElseThrow(()-> new EntityNotFoundException("Seance est non trouvé"));
+        seance.setIsArchived(true);
+        Cours cours = seance.getCours();
+        int nbreHeure = seance.getHeureF().getHour()-seance.getHeureD().getHour();
+        cours.setNbreHeurePlanifie(cours.getNbreHeurePlanifie()-nbreHeure);
+        cours.setNbreHeureRestantPlan(cours.getNbreHeureRestantPlan()+nbreHeure);
+        seanceService.save(seance);
+        coursService.save(cours);
+        return "redirect:/ac/seance";
+    }
 
     @Override
     public String saveSeanceAbsences(Model model, Long id, Long[] absentsIds) {

@@ -33,11 +33,11 @@ public class ProfesseurControllerImpl implements ProfesseurController {
         String htmlValueClasse = null;
         String htmlValueModule = null;
         if (professeur!=null){
-            htmlValueClasse = pageLoaderService.loadPageContent("http://localhost:8001/ac/professeur/details/classe/"+professeur);
-            htmlValueModule = pageLoaderService.loadPageContent("http://localhost:8001/ac/professeur/details/module/"+professeur);
+            htmlValueClasse = pageLoaderService.loadPageContent("http://localhost:8001/professeur/details/classe/"+professeur);
+            htmlValueModule = pageLoaderService.loadPageContent("http://localhost:8001/professeur/details/module/"+professeur);
         }
         AnneeScolaire anneeScolaire = anneeScolaireService.getAnneeActuelle();
-        Page<Professeur> professeurs = professeurService.getAllByGradeAndPortable(grade,portable ,PageRequest.of(page,size));
+        Page<Professeur> professeurs = professeurService.getAllByGradeAndPortableAndPlanned(grade,portable,true ,PageRequest.of(page,size));
         Page<ProfesseurResponseDto> profDtos = professeurs.map(ProfesseurResponseDto::toDto);
         List<String> grades = professeurService.getAllGrades();
         model.addAttribute("professeurs",profDtos.getContent());
@@ -61,7 +61,7 @@ public class ProfesseurControllerImpl implements ProfesseurController {
     public String listerProfesseurDetailClasse(Model model, Long profID) {
         Professeur professeur = professeurService.show(profID)
                 .orElseThrow(()->new EntityNotFoundException("Professeur n'existe pas"));
-        Page<Classe> classes = professeurService.getClasseByProfesseur(professeur,PageRequest.of(0,100));
+        Page<Classe> classes = professeurService.getClasseByProfesseur(professeur,PageRequest.of(0,1000));
         Page<ClasseResponseDto> classesDto = classes.map(ClasseResponseDto::toDto);
         model.addAttribute("professeur",professeur.getNomComplet());
         model.addAttribute("classes",classesDto.getContent());
@@ -72,7 +72,7 @@ public class ProfesseurControllerImpl implements ProfesseurController {
     public String listerProfesseurDetailModule(Model model, Long profID) {
         Professeur professeur = professeurService.show(profID)
                 .orElseThrow(()->new EntityNotFoundException("Professeur n'existe pas"));
-        Page<Module> modules = professeurService.getModuleByProfesseur(professeur,PageRequest.of(0,100));
+        Page<Module> modules = professeurService.getModuleByProfesseur(professeur,PageRequest.of(0,1000));
         Page<ModuleResponseDto> modulesDto = modules.map(ModuleResponseDto::toDto);
         model.addAttribute("professeur",professeur.getNomComplet());
         model.addAttribute("modules",modulesDto.getContent());

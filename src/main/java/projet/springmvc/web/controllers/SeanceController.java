@@ -15,11 +15,11 @@ public interface SeanceController {
                           @RequestParam(defaultValue = "0") int couleur
     );
 
-    @GetMapping("/ac/seance/etudiant/{seanceId}")
+    @GetMapping("/seance/etudiant/{seanceId}")
     String listerSeanceEtudiant(Model model, @PathVariable Long seanceId);
 
-//    @GetMapping("/ac/seance/archiver/{id}")
-//    String archiverSeance(Model model, @PathVariable Long id);
+    @GetMapping("/ac/seance/archiver/{id}")
+    String archiverSeance(Model model, @PathVariable Long id);
 
     @GetMapping("/ac/seance/{id}/absences/save/{absentsIds}")
     String saveSeanceAbsences(Model model,

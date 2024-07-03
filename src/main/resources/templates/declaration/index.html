@@ -34,7 +34,6 @@
             <th class="px-4 py-3 ">N°</th>
             <th class="px-4 py-3 ">Date</th>
             <th class="px-4 py-3 ">Cours</th>
-            <th class="px-4 py-3 ">Titre</th>
             <th class="px-4 py-3 ">Email</th>
             <th class="px-4 py-3 ">Utilisateur</th>
             <th class="px-4 py-3 ">Motif</th>
@@ -45,9 +44,8 @@
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900" >
           <tr class="text-gray-700 dark:text-gray-400" th:each="de:${declarations}">
             <td class="px-4 py-3 text-sm" th:text="${de.id}"></td>
-            <td class="px-4 py-3 text-sm" th:text="${#dates.format(de.date,'dd-MM-yyyy')}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${de.date}"></td>
             <td class="px-4 py-3 text-sm" th:text="${de.cours}"></td>
-            <td class="px-4 py-3 text-sm" th:text="${de.titre}"></td>
             <td class="px-4 py-3 text-sm" th:text="${de.email}"></td>
             <td class="px-4 py-3 text-sm" th:text="${de.user}"></td>
             <td class="px-4 py-3 text-sm" th:text="${de.motif}"></td>

@@ -43,7 +43,7 @@ public class ClasseControllerImpl implements ClasseController {
         if(filiereActuelle.isPresent()){
             fil = filiereActuelle.get();
         }
-       classes = classeService.getAllByNiveauAndFiliere(PageRequest.of(page,size),niv,fil);
+       classes = classeService.getAllByNiveauAndFiliereAndPlanned(PageRequest.of(page,size),niv,fil,true);
         Page<NiveauResponseDto> listNiveau = niveauService.getAll(PageRequest.of(0,100)).map(NiveauResponseDto::toDto);
         Page<FiliereResponseDto> listFiliere = filiereService.getAll(PageRequest.of(0,100)).map(FiliereResponseDto::toDto);
 

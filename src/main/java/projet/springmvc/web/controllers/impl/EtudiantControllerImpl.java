@@ -33,10 +33,10 @@ public class EtudiantControllerImpl implements EtudiantController {
         String htmlAbsence = null;
         String htmlDossier = null;
         if (show.equals("absence")){
-            htmlAbsence = pageLoaderService.loadPageContent("http://localhost:8001/ac/etudiant/absence/"+etudiant);
+            htmlAbsence = pageLoaderService.loadPageContent("http://localhost:8001/etudiant/absence/"+etudiant);
         }
         if (show.equals("dossier")){
-            htmlDossier = pageLoaderService.loadPageContent("http://localhost:8001/ac/etudiant/dossier/"+etudiant);
+            htmlDossier = pageLoaderService.loadPageContent("http://localhost:8001/etudiant/dossier/"+etudiant);
         }
         Optional<Classe> classeActuelle = classeService.show(classe);
         AnneeScolaire anneeScolaire = anneeScolaireService.getAnneeActuelle();

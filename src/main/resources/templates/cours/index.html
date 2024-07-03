@@ -47,7 +47,7 @@
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900" >
           <tr class="text-gray-700 dark:text-gray-400" th:each="cours:${courss}">
             <td class="px-4 py-3 text-sm" th:text="${cours.id}"></td>
-            <td class="px-4 py-3 text-sm" th:text="${#dates.format(cours.date,'dd-MM-yyyy')}"></td>
+            <td class="px-4 py-3 text-sm" th:text="${cours.date}"></td>
             <td class="px-4 py-3 text-sm" th:text="${cours.module}"></td>
             <td class="px-4 py-3 text-sm" th:text="${cours.professeur}"></td>
             <td class="px-4 py-3 text-sm" th:text="${cours.classes}"></td>

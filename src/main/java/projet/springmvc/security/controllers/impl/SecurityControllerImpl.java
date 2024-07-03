@@ -14,10 +14,9 @@ public class SecurityControllerImpl implements SecurityController {
     private  final SecurityService securityService;
     @Override
     public String login(@AuthenticationPrincipal UserDetails userDetails) {
-        if (userDetails.getAuthorities().stream().anyMatch(role->role.getAuthority().compareTo("ROLE_AC")==0 || role.getAuthority().compareTo("ROLE_RP")==0 || role.getAuthority().compareTo("ROLE_ADMIN")==0 )){
+        // if (userDetails != null && (userDetails.getAuthorities().stream().anyMatch(role->role.getAuthority().compareTo("ROLE_AC")==0 || role.getAuthority().compareTo("ROLE_RP")==0 || role.getAuthority().compareTo("ROLE_ADMIN")==0 ))){
             return "redirect:/ac/cours";
-        }
-        return "redirect:/login";
+        // }
     }
 
     @Override

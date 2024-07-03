@@ -15,9 +15,9 @@ public interface ProfesseurController {
                             @RequestParam(defaultValue = "") Long professeur
                        );
 
-    @GetMapping("/ac/professeur/details/classe/{profID}")
+    @GetMapping("/professeur/details/classe/{profID}")
     String listerProfesseurDetailClasse(Model model, @PathVariable Long profID);
 
-    @GetMapping("/ac/professeur/details/module/{profID}")
+    @GetMapping("/professeur/details/module/{profID}")
     String listerProfesseurDetailModule(Model model, @PathVariable Long profID);
 }

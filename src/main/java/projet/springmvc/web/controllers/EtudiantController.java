@@ -15,9 +15,9 @@ public interface EtudiantController {
                        @RequestParam(defaultValue = "") Long etudiant
                        );
 
-    @GetMapping("/ac/etudiant/absence/{etudiantID}")
+    @GetMapping("/etudiant/absence/{etudiantID}")
     String listerEtudiantAbsence(Model model, @PathVariable Long etudiantID);
 
-    @GetMapping("/ac/etudiant/dossier/{etudiantID}")
+    @GetMapping("/etudiant/dossier/{etudiantID}")
     String listerEtudiantDossier(Model model, @PathVariable Long etudiantID);
 }

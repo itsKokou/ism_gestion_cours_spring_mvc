@@ -306,7 +306,8 @@
                     <div  class="flex flex-1 mt-1 mb-2 justify-end" th:if="${route == '/ac/seance'}">
                         <select id="select-classe" class="px-4 py-3 mr-4 bg-gray-50 dark:bg-black border border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option th:data="@{/ac/seance(classe=0)}" value="0">All</option>
-                            <option th:each="cl:${classes}" th:data="@{/ac/seance(classe=${cl.id})}" th:value="${cl.id}" th:text="${cl.libelle}" th:selected="${cl.id==classe}" ></option>
+                            <option th:each="cl:${classes}" th:data="@{/ac/seance(classe=${cl.id})}"
+                                    th:value="${cl.id}" th:text="${cl.libelle}" th:selected="${cl.id==classe}" ></option>
                         </select>
                     </div>
                     <div  class="flex mt-1 mb-2 justify-end" th:if="${route == '/ac/seance'}">
@@ -539,10 +540,12 @@
     if(anneeSelect!=null){
         getData(anneeSelect);
     }
+
     const classeSelect = document.querySelector('#select-classe');
     if(classeSelect!=null){
         getData(classeSelect);
     }
+
     const etatSelect = document.querySelector('#select-etat');
     if(etatSelect!=null){
         getData(etatSelect);

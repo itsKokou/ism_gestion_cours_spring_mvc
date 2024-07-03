@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 public interface SecurityController {
-    @GetMapping("/")
+    @GetMapping({ "/"})
     String login(@AuthenticationPrincipal UserDetails userDetails);
 
     @GetMapping("/login")
